@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OTX</title>
+    <title>Plain Text Viewer</title>
 </head>
 <body>
     <div id="input-section">
         <label for="text-input">Enter Text:</label>
-        <input type="text" id="text-input" placeholder="Enter text...">
+        <p id="text-input" contenteditable="true" placeholder="Enter text..."></p>
         
         <label for="extension-select">Select Extension:</label>
         <select id="extension-select">
@@ -36,17 +36,29 @@
         // Replace '%0A' with actual line breaks in the text
         text = text.replace(/%0A/g, '\n');
 
-        // Display the text in the 'text-content' element
+        // Display the text or hide the form as needed
         var textContent = document.getElementById('text-content');
-        textContent.textContent = text;
+        var textInput = document.getElementById('text-input');
+        var inputSection = document.getElementById('input-section');
+        var saveButton = document.getElementById('save-button');
+        var extensionSelect = document.getElementById('extension-select');
+        
+        if (text) {
+            // If 'f' parameter is provided, display the text and hide the form
+            textInput.style.display = 'none';
+            extensionSelect.style.display = 'none';
+            saveButton.style.display = 'none';
+            textContent.textContent = text;
+        } else {
+            // If 'f' parameter is not provided, display the form
+            textInput.style.display = 'block';
+            extensionSelect.style.display = 'block';
+            saveButton.style.display = 'block';
+        }
 
         // Text input, extension select, and save button functionality
-        var textInput = document.getElementById('text-input');
-        var extensionSelect = document.getElementById('extension-select');
-        var saveButton = document.getElementById('save-button');
-
         saveButton.addEventListener('click', function() {
-            var enteredText = textInput.value;
+            var enteredText = textInput.textContent;
             var selectedExtension = extensionSelect.value;
 
             // Encode text for URL and open it in a new tab
