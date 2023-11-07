@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTX</title>
+</head>
+<body>
+    <div id="input-section">
+        <label for="text-input">Enter Text:</label>
+        <input type="text" id="text-input" placeholder="Enter text...">
+        
+        <label for="extension-select">Select Extension:</label>
+        <select id="extension-select">
+            <option value="">None</option>
+            <option value=".txt">.txt</option>
+            <option value=".md">.md</option>
+            <option value=".custom">.custom</option>
+        </select>
+        
+        <button id="save-button">Save</button>
+    </div>
+
+    <pre id="text-content"></pre>
+
+    <script>
+        // Function to get URL parameters by name
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Get the 'f' parameter from the URL
+        var text = getUrlParameter('f');
+
+        // Replace '%0A' with actual line breaks in the text
+        text = text.replace(/%0A/g, '\n');
+
+        // Display the text in the 'text-content' element
+        var textContent = document.getElementById('text-content');
+        textContent.textContent = text;
+
+        // Text input, extension select, and save button functionality
+        var textInput = document.getElementById('text-input');
+        var extensionSelect = document.getElementById('extension-select');
+        var saveButton = document.getElementById('save-button');
+
+        saveButton.addEventListener('click', function() {
+            var enteredText = textInput.value;
+            var selectedExtension = extensionSelect.value;
+
+            // Encode text for URL and open it in a new tab
+            var encodedText = encodeURIComponent(enteredText);
+            var extensionParam = selectedExtension ? '&ext=' + encodeURIComponent(selectedExtension) : '';
+            var newURL = window.location.origin + '/otx/?f=' + encodedText + extensionParam;
+            window.open(newURL, '_blank');
+        });
+    </script>
+</body>
+</html>
