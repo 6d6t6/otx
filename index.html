@@ -4,21 +4,6 @@
     <title>Plain Text Viewer</title>
 </head>
 <body>
-    <div id="input-section">
-        <label for="text-input"></label>
-        <p id="text-input" contenteditable="true" placeholder="Enter text..."></p>
-        
-        <label for="extension-select"></label>
-        <select id="extension-select">
-            <option value="">None</option>
-            <option value=".txt">.txt</option>
-            <option value=".md">.md</option>
-            <option value=".custom">.custom</option>
-        </select>
-        
-        <button id="save-button">Save</button>
-    </div>
-
     <pre id="text-content"></pre>
 
     <script>
@@ -38,35 +23,11 @@
 
         // Display the text or hide the form as needed
         var textContent = document.getElementById('text-content');
-        var textInput = document.getElementById('text-input');
-        var inputSection = document.getElementById('input-section');
-        var saveButton = document.getElementById('save-button');
-        var extensionSelect = document.getElementById('extension-select');
-        
+
         if (text) {
             // If 'f' parameter is provided, display the text and hide the form
-            textInput.style.display = 'none';
-            extensionSelect.style.display = 'none';
-            saveButton.style.display = 'none';
             textContent.textContent = text;
-        } else {
-            // If 'f' parameter is not provided, display the form
-            textInput.style.display = 'block';
-            extensionSelect.style.display = 'block';
-            saveButton.style.display = 'block';
         }
-
-        // Text input, extension select, and save button functionality
-        saveButton.addEventListener('click', function() {
-            var enteredText = textInput.textContent;
-            var selectedExtension = extensionSelect.value;
-
-            // Encode text for URL and open it in a new tab
-            var encodedText = encodeURIComponent(enteredText);
-            var extensionParam = selectedExtension ? '&ext=' + encodeURIComponent(selectedExtension) : '';
-            var newURL = window.location.origin + '/otx/?f=' + encodedText + extensionParam;
-            window.open(newURL, '_blank');
-        });
     </script>
 </body>
 </html>
